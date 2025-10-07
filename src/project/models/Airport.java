@@ -4,20 +4,20 @@ import project.exceptions.AirportException;
 
 public class Airport {
     private String name;
-    private String code;   // must be 3 uppercase letters
-    private int x;         // range -90 to 90
-    private int y;         // range -90 to 90
+    private String code;  
+    private int x;         
+    private int y;         
 
-    // Constructor that throws AirportException
+
     public Airport(String name, String code, int x, int y) throws AirportException {
         if (name == null || name.isEmpty()) {
-            throw new AirportException("Airport name cannot be empty.");
+            throw new AirportException("Ime aerodroma ne sme biti prazno");
         }
         if (code == null || !code.matches("[A-Z]{3}")) {
-            throw new AirportException("Airport code must be exactly 3 uppercase letters.");
+            throw new AirportException("Kod aerodroma mora biti tacno 3 velika slova");
         }
         if (x < -90 || x > 90 || y < -90 || y > 90) {
-            throw new AirportException("Coordinates must be between -90 and 90.");
+            throw new AirportException("Koordinate aerodroma moraju biti izmedju -90 i 90");
         }
 
         this.name = name;
@@ -26,7 +26,7 @@ public class Airport {
         this.y = y;
     }
 
-    // Getters
+
     public String getName() { return name; }
     public String getCode() { return code; }
     public int getX() { return x; }

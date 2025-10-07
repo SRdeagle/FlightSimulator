@@ -17,9 +17,10 @@ public class MainFrame extends Frame {
 
     public MainFrame() {
         super("Airport Project");
+        setFocusable(true);
+        requestFocus();
         setSize(500, 600);
         setLayout(new BorderLayout());
-        setFocusable(true);
 
         manager = new FlightManager();
         cardLayout = new CardLayout();
@@ -30,20 +31,17 @@ public class MainFrame extends Frame {
         simulationPanel = new SimulationPanel(manager, this);
         warningDialog = new WarningDialog(this);
         timer = new InactivityTimer(warningDialog);
+        warningDialog.setTimer(timer);
         listener = new UserActivityListener(timer);
         timer.start();
+
+        
 
         cardPanel.add(inputPanel, "input");
         cardPanel.add(simulationPanel, "simulation");
         add(cardPanel, BorderLayout.CENTER);
 
         cardLayout.show(cardPanel, "input");
-
-        simulationPanel.addMouseMotionListener(listener);
-        simulationPanel.addMouseListener(listener);
-        inputPanel.addMouseMotionListener(listener);
-        inputPanel.addMouseListener(listener);
-        addKeyListener(listener);
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
@@ -57,8 +55,8 @@ public class MainFrame extends Frame {
         cardLayout.show(cardPanel, name);
         System.out.println(name);
         if ("simulation".equals(name)) {
-            simulationPanel.repaint();
-            setSize(800, 600);
+            simulationPanel.refresh();
+            setSize(1200, 750);
         }
         else if ("input".equals(name)) {
             setSize(500,600);

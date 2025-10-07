@@ -1,39 +1,34 @@
 package project.util;
 
+import java.awt.*;
 import java.awt.event.*;
 
-/**
- * Listener koji hvata sve osnovne aktivnosti korisnika (klik, pomeranje miša, tastaturu)
- * i resetuje tajmer neaktivnosti.
- */
-public class UserActivityListener extends MouseAdapter implements MouseMotionListener, KeyListener {
+public class UserActivityListener implements AWTEventListener {
     private final InactivityTimer timer;
+    private long lastResetTime = 0;
+    private static final long MIN_INTERVAL = 100; // minimalni razmak između reset-a (ms)
 
     public UserActivityListener(InactivityTimer timer) {
         this.timer = timer;
+
+        Toolkit.getDefaultToolkit().addAWTEventListener(
+            this,
+            AWTEvent.MOUSE_EVENT_MASK |
+            AWTEvent.MOUSE_MOTION_EVENT_MASK |
+            AWTEvent.KEY_EVENT_MASK
+        );
     }
 
-    // klik mišem
     @Override
-    public void mousePressed(MouseEvent e) {
-        System.out.println("klik!!!!!!!!!!!!!!!!!");
+    public void eventDispatched(AWTEvent event) {
+        // throttling da se ne resetuje cesto
+        long now = System.currentTimeMillis();
+        if (now - lastResetTime < MIN_INTERVAL) return;
+        lastResetTime = now;
+
+        // ako je dijalog aktivan, ne resetuj
+        if (timer.isDialogActive()) return;
+
         timer.resetInactivityTime();
     }
-
-    // pomeranje miša
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        timer.resetInactivityTime();
-    }
-
-    // bilo koji pritisak tastera
-    @Override
-    public void keyPressed(KeyEvent e) {
-        timer.resetInactivityTime();
-    }
-
-    // ne koristi se, ali moraju postojati
-    @Override public void mouseDragged(MouseEvent e) {}
-    @Override public void keyReleased(KeyEvent e) {}
-    @Override public void keyTyped(KeyEvent e) {}
 }

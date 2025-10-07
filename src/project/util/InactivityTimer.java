@@ -5,6 +5,17 @@ public class InactivityTimer extends Thread {
     private int inactivityTime = 0;
     private WarningDialog warningDialog;
     private static int allowedTime = 60;
+
+    private volatile boolean dialogActive = false;
+
+    public void setDialogActive(boolean active) {
+        dialogActive = active;
+    }
+
+    public boolean isDialogActive() {
+        return dialogActive;
+    }
+
     public InactivityTimer(WarningDialog warningDialog) {
         this.warningDialog = warningDialog;
     }
@@ -13,8 +24,7 @@ public class InactivityTimer extends Thread {
             try {
                 sleep(1000);
             } catch (InterruptedException e) {}
-            //System.out.println("probudio sam se " + inactivityTime + "\n");
-            //inactivityTime += 1;
+            inactivityTime += 1;
             if (inactivityTime>=allowedTime-5) {
                 if (inactivityTime>=allowedTime) {
                     System.exit(0);
@@ -27,7 +37,8 @@ public class InactivityTimer extends Thread {
         return inactivityTime;
     }
 
-    synchronized void resetInactivityTime() {
+    public synchronized void resetInactivityTime() {
+        if (dialogActive) return;
         inactivityTime = 0;
     }
 }

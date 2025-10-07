@@ -91,8 +91,8 @@ public class InputPanel extends Panel {
 
         // panel za CSV dugmad
         Panel csvPanel = new Panel(new FlowLayout());
-        Button loadCSVButton = new Button("Učitaj CSV");
-        Button saveCSVButton = new Button("Sačuvaj CSV");
+        Button loadCSVButton = new Button("Ucitaj CSV");
+        Button saveCSVButton = new Button("Sacuvaj CSV");
         csvPanel.add(loadCSVButton);
         csvPanel.add(saveCSVButton);
 
@@ -125,9 +125,9 @@ public class InputPanel extends Panel {
                 yField.setText("");
 
             } catch (AirportException ex) {
-                outputArea.append("Greška: " + ex.getMessage() + "\n"); // ovde treba videti malo za exceptione
+                outputArea.append(ex.getMessage() + "\n"); // ovde treba videti malo za exceptione
             } catch (NumberFormatException ex) {						// koji mi sve trebaju
-                outputArea.append("Koordinate moraju biti brojevi!\n");
+                outputArea.append("Koordinate moraju biti brojevi\n");
             }
         });
 
@@ -156,14 +156,14 @@ public class InputPanel extends Panel {
                 durationField.setText("");
 
             } catch (NumberFormatException ex) {
-                outputArea.append("Sat, minut i trajanje moraju biti brojevi!\n");
+                outputArea.append("Sat, minut i trajanje moraju biti brojevi\n");
             } catch (FlightException ex) {
-                outputArea.append("Greška: " + ex.getMessage() + "\n");
+                outputArea.append(ex.getMessage() + "\n");
             }
         });
 
         loadCSVButton.addActionListener(e -> {
-            FileDialog fd = new FileDialog(parent, "Učitaj CSV fajl", FileDialog.LOAD);
+            FileDialog fd = new FileDialog(parent, "Ucitaj CSV fajl", FileDialog.LOAD);
             fd.setVisible(true);
             String directory = fd.getDirectory();
             String file = fd.getFile();
@@ -171,15 +171,15 @@ public class InputPanel extends Panel {
                 String path = directory + file;
                 try {
                     manager.loadFromCSV(path,startAirportChoice,endAirportChoice);
-                    outputArea.append("Uspješno učitan CSV fajl: " + path + "\n");
+                    outputArea.append("Uspesno ucitan CSV fajl: " + path + "\n");
                 } catch (Exception ex) {
-                    outputArea.append("Greška pri učitavanju CSV fajla: " + ex.getMessage() + "\n");
+                    outputArea.append(ex.getMessage() + "\n");
                 }
             }
         });
 
         saveCSVButton.addActionListener(e -> {
-            FileDialog fd = new FileDialog(parent, "Sačuvaj CSV fajl", FileDialog.SAVE);
+            FileDialog fd = new FileDialog(parent, "Sacuvaj CSV fajl", FileDialog.SAVE);
             fd.setVisible(true);
             String directory = fd.getDirectory();
             String file = fd.getFile();
@@ -187,9 +187,9 @@ public class InputPanel extends Panel {
                 String path = directory + file;
                 try {
                     manager.saveToCSV(path);
-                    outputArea.append("Uspješno sačuvan CSV fajl: " + path + "\n");
+                    outputArea.append("Uspesno sačuvan CSV fajl: " + path + "\n");
                 } catch (Exception ex) {
-                    outputArea.append("Greška pri čuvanju CSV fajla: " + ex.getMessage() + "\n");
+                    outputArea.append(ex.getMessage() + "\n");
                 }
             }
         });

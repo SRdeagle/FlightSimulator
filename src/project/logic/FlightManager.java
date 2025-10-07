@@ -89,7 +89,7 @@ public class FlightManager {
                     continue;
                 }
                 if (inAirports) {
-                    // Each airport line: code,name,x,y
+
                     String[] parts = line.split(",");
                     if (parts.length != 4) continue;
                     String code = parts[0].trim();
@@ -122,7 +122,11 @@ public class FlightManager {
                 }
             }
         } catch (Exception e) {
-            throw new CSVException("Failed to load CSV: " + e.getMessage());
+            airports.clear();
+            flights.clear();
+            startAirportChoice.removeAll();
+            endAirportChoice.removeAll();
+            throw new CSVException(e.getMessage());
         }
     }
 
@@ -142,7 +146,7 @@ public class FlightManager {
                 pw.printf("%s,%s,%d,%d,%d%n", start.getCode(), end.getCode(), f.getHour(), f.getMinute(), f.getDuration());
             }
         } catch (Exception e) {
-            throw new CSVException("Failed to save CSV: " + e.getMessage());
+            throw new CSVException(e.getMessage());
         }
     }
 }
