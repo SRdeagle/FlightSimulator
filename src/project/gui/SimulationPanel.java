@@ -17,11 +17,11 @@ public class SimulationPanel extends Panel{
             g.fillRect(0, 0, width, height);
 
             // aerodromi
-            g.setColor(Color.red);
+            g.setColor(Color.gray);
             for (Airport a : fm.getAirports()) {
                 int sx = (int) ((a.getX() + 90) / 180.0 * width);
                 int sy = (int) ((90 - a.getY()) / 180.0 * height);
-                g.fillOval(sx - 4, sy - 4, 8, 8);
+                g.fillRect(sx - 4, sy - 4, 8, 8);
                 g.drawString(a.getCode(), sx + 6, sy - 6);
             }
 
@@ -58,4 +58,3 @@ public class SimulationPanel extends Panel{
         repaint();
     }
 }
-
