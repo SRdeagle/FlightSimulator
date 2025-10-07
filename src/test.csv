@@ -1,0 +1,9 @@
+Airports:
+BEG,Belgrade,20,44
+JFK,New York,-73,40
+CEN,Center,0,0
+SUB,Subotica,-70,-80
+
+Flights:
+BEG,JFK,10,30,480
+JFK,BEG,18,15,510
